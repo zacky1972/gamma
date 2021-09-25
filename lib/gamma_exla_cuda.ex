@@ -1,7 +1,7 @@
 defmodule GammaExlaCuda do
   import Nx.Defn
 
-  @defn_compiler {EXLA, cliend: :cuda}
+  @defn_compiler {EXLA, client: :cuda}
   defn gamma32(t, median_point) do
     t = Nx.as_type(t, {:f, 32})
     n = Nx.divide(1, median_point)
@@ -12,7 +12,7 @@ defmodule GammaExlaCuda do
     |> Nx.as_type({:u, 8})
   end
 
-  @defn_compiler {EXLA, cliend: :cuda}
+  @defn_compiler {EXLA, client: :cuda}
   defn gamma16(t, median_point) do
     t = Nx.as_type(t, {:f, 16})
     n = Nx.divide(1, median_point)

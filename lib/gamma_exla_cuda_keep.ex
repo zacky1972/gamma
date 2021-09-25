@@ -1,7 +1,7 @@
 defmodule GammaExlaCudaKeep do
   import Nx.Defn
 
-  @defn_compiler {EXLA, cliend: :cuda}
+  @defn_compiler {EXLA, client: :cuda, run_options: [keep_on_device: true]}
   defn gamma32(t, median_point) do
     t = Nx.as_type(t, {:f, 32})
     n = Nx.divide(1, median_point)
@@ -12,7 +12,7 @@ defmodule GammaExlaCudaKeep do
     |> Nx.as_type({:u, 8})
   end
 
-  @defn_compiler {EXLA, cliend: :cuda}
+  @defn_compiler {EXLA, client: :cuda, run_options: [keep_on_device: true]}
   defn gamma16(t, median_point) do
     t = Nx.as_type(t, {:f, 16})
     n = Nx.divide(1, median_point)
