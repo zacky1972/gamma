@@ -5,9 +5,9 @@ defmodule Gamma do
   Documentation for `Gamma`.
   """
 
-  defn gamma32(t, median_point) do
+  defn gamma32(t, gamma) do
     t = Nx.as_type(t, {:f, 32})
-    n = Nx.divide(1, median_point)
+    n = Nx.divide(1, gamma)
 
     Nx.multiply(255, Nx.power(Nx.divide(t, 255), n))
     |> Nx.add(0.5)
@@ -15,9 +15,9 @@ defmodule Gamma do
     |> Nx.as_type({:u, 8})
   end
 
-  defn gamma16(t, median_point) do
+  defn gamma16(t, gamma) do
     t = Nx.as_type(t, {:f, 16})
-    n = Nx.divide(1, median_point)
+    n = Nx.divide(1, gamma)
 
     Nx.multiply(255, Nx.power(Nx.divide(t, 255), n))
     |> Nx.add(0.5)
