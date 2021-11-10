@@ -21,11 +21,11 @@ defmodule GammaNif do
 
   defp gamma32_sub(t, gamma) do
     %{
-      t |
-      data: %{
-        t.data |
-        state: gamma32_nif(Nx.size(t), t.data.state, gamma)
-      }
+      t
+      | data: %{
+          t.data
+          | state: gamma32_nif(Nx.size(t), t.data.state, gamma)
+        }
     }
   end
 
@@ -46,11 +46,11 @@ defmodule GammaNif do
 
   defp gamma32p_sub(t, gamma) do
     %{
-      t |
-      data: %{
-        t.data |
-        state: gamma32p_nif(Nx.size(t), t.data.state, gamma)
-      }
+      t
+      | data: %{
+          t.data
+          | state: gamma32p_nif(Nx.size(t), t.data.state, gamma)
+        }
     }
   end
 
@@ -65,5 +65,31 @@ defmodule GammaNif do
 
   def gamma32p_n(x, gamma) when is_number(x) and is_float(gamma) do
     gamma32p_sub(Nx.tensor([x], type: {:u, 8}), gamma)
+  end
+
+  def gamma32_Maclaurin_nif(_size, _x, _gamma),
+    do: raise("NIF gamma32_Maclaurin_nif/3 not implemented")
+
+  defp gamma32_Maclaurin_sub(t, gamma) do
+    %{
+      t
+      | data: %{
+          t.data
+          | state: gamma32_Maclaurin_nif(Nx.size(t), t.data.state, gamma)
+        }
+    }
+  end
+
+  def gamma32_Maclaurin_n(x, gamma) when is_struct(x, Nx.Tensor) and is_float(gamma) do
+    shape = Nx.shape(x)
+
+    Nx.reshape(x, {Nx.size(x)})
+    |> Nx.as_type({:u, 8})
+    |> gamma32_Maclaurin_sub(gamma)
+    |> Nx.reshape(shape)
+  end
+
+  def gamma32_Maclaurin_n(x, gamma) when is_number(x) and is_float(gamma) do
+    gamma32_Maclaurin_sub(Nx.tensor([x], type: {:u, 8}), gamma)
   end
 end

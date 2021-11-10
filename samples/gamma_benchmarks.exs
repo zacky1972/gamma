@@ -8,6 +8,7 @@ input_u8 = Nx.iota({255}, type: {:u, 8})
 result = Gamma.gamma32(input_u8, 1.5)
 ^result = GammaNif.gamma32_n(input_u8, 1.5)
 ^result = GammaNif.gamma32p_n(input_u8, 1.5)
+^result = GammaNif.gamma32_Maclaurin_n(input_u8, 1.5)
 
 benches =   %{
   "nx_32" => fn -> Gamma.gamma32(input_u8, 1.5) end,
@@ -15,7 +16,8 @@ benches =   %{
   "xla jit-cpu 32" => fn -> GammaExla.gamma32(input_u8, 1.5) end,
   "xla jit-cpu 16" => fn -> GammaExla.gamma16(input_u8, 1.5) end,
   "nif_32" => fn -> GammaNif.gamma32_n(input_u8, 1.5) end,
-  "nif_32p" => fn -> GammaNif.gamma32p_n(input_u8, 1.5) end
+  "nif_32p" => fn -> GammaNif.gamma32p_n(input_u8, 1.5) end,
+  "nif_32_Maclaurin" => fn -> GammaNif.gamma32_Maclaurin_n(input_u8, 1.5) end
 }
 
 benches =
